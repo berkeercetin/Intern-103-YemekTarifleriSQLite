@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment"
+    tools:context=".TarifFragment">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="211dp"
+        android:layout_height="190dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginBottom="45dp"
+        android:onClick="gorselSec"
+        app:layout_constraintBottom_toTopOf="@+id/yemekİsmiText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/yemekİsmiText"
+        android:layout_width="345dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="19dp"
+        android:ems="10"
+        android:hint="Lütfen Yemek İsmini Giriniz"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/malzemelerText"
+        app:layout_constraintEnd_toEndOf="@+id/malzemelerText"
+        app:layout_constraintStart_toStartOf="@+id/malzemelerText"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <EditText
+        android:id="@+id/malzemelerText"
+        android:layout_width="345dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="26dp"
+        android:ems="10"
+        android:hint="Malzemeleri Giriniz"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yemekİsmiText" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="129dp"
+        android:onClick="kaydet"
+        android:text="Kaydet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/malzemelerText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
