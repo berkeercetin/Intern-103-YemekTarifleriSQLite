@@ -65,6 +65,7 @@ class TarifFragment : Fragment() {
     }
 
     fun saveSQL(baslik: String, metin: String) {
+        val dbHelper = DatabaseHelper(requireContext())
         if (this.test == null) {
             Log.e("Database", "Resim seçilmedi.")
             return
@@ -73,22 +74,7 @@ class TarifFragment : Fragment() {
         val imageByteArray = bitmapToByteArray(bitmap)
 
         try {
-            val database = requireContext().openOrCreateDatabase("yemekler.db", Context.MODE_PRIVATE, null)
-            if (!isTableExists(database, "yemekler")) {
-                // Veritabanı tablosunu oluştur
-                database.execSQL("CREATE TABLE yemekler (_id INTEGER PRIMARY KEY, baslik TEXT, metin TEXT, resim BLOB)")
-            }
-            val values = ContentValues()
-            values.put("baslik", baslik)
-            values.put("metin", metin)
-            values.put("resim", imageByteArray)
-            val newRowId = database.insert("yemekler", null, values)
-            if (newRowId != -1L) {
-                Log.d("Database", "Yemek veritabanına kaydedildi. ID: $newRowId")
-            } else {
-                Log.e("Database", "Yemek kaydedilirken hata oluştu.")
-            }
-            database.close()
+            dbHelper.insertTarif(baslik,metin,imageByteArray)
         } catch (e: Exception) {
             Log.e("Database", "Yemek kaydedilirken bir hata oluştu: ${e.message}")
         }

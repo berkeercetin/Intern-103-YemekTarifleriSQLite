@@ -37,42 +37,15 @@ class ListeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)!!
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-
-
-        val database = requireContext().openOrCreateDatabase("yemekler.db", Context.MODE_PRIVATE, null)
-        val tarifListesi = mutableListOf<Any>()
-        val sorgu = "SELECT * FROM yemekler"
-        val cursor = database.rawQuery(sorgu, null)
-        if (cursor.moveToFirst()) {
-            val tarifListesi = mutableListOf<Tarif>() // Tarif sınıfına uygun bir veri sınıfı kullanın
-
-            do {
-                val id = cursor.getInt(cursor.getColumnIndex("_id"))
-                val baslik = cursor.getString(cursor.getColumnIndex("baslik"))
-                val metin = cursor.getString(cursor.getColumnIndex("metin"))
-                val resimByteArray = cursor.getBlob(cursor.getColumnIndex("resim"))
-                val bitmap = BitmapFactory.decodeByteArray(resimByteArray, 0, resimByteArray.size)
-
-                val tarif = Tarif(id, baslik, metin, bitmap) // Tarif sınıfının uygun bir kurucu işlevini kullanın
-                tarifListesi.add(tarif)
-            } while (cursor.moveToNext())
-
-            cursor.close()
-
-            // Şimdi tarifListesi'ni RecyclerView.Adapter'e aktarabilirsiniz
+        val dbHelper = DatabaseHelper(requireContext())
+        val tarifListesi = dbHelper.getTarifList()
+        if (tarifListesi.isNotEmpty()) {
+            // Veriler mevcut, RecyclerView.Adapter'e aktarın
             val adapter = TarifAdapter(tarifListesi)
             recyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
 
-
         }
-
-        cursor.close()
         Log.e("TAG",tarifListesi.size.toString())
     }
-
-
-
-
 }
