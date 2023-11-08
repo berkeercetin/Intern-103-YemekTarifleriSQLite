@@ -12,7 +12,7 @@ class TarifAdapter(private val tarifListesi: List<Tarif>) : RecyclerView.Adapter
     inner class TarifViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val baslikTextView: TextView = itemView.findViewById(R.id.textViewBaslik2)
         val metinTextView: TextView = itemView.findViewById(R.id.textViewMetin2)
-      //  val resimImageView: ImageView = itemView.findViewById(R.id.imageViewResim)
+        val resimImageView: ImageView = itemView.findViewById(R.id.imageViewTarif)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TarifViewHolder {
@@ -26,7 +26,7 @@ class TarifAdapter(private val tarifListesi: List<Tarif>) : RecyclerView.Adapter
         // Verileri ViewHolder bileşenlerine aktar
         holder.baslikTextView.text = tarif.baslik
         holder.metinTextView.text = tarif.metin
-        //holder.resimImageView.setImageBitmap(tarif.bitmap)
+        holder.resimImageView.setImageBitmap(tarif.bitmap)
     }
 
     override fun getItemCount(): Int {

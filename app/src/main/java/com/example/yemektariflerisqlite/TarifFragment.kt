@@ -18,8 +18,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.navigation.Navigation
 import com.example.yemektariflerisqlite.databinding.ActivityMainBinding
 import java.io.ByteArrayOutputStream
 
@@ -46,10 +49,24 @@ class TarifFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val button = view.findViewById<Button>(R.id.button)
         val isim = view.findViewById<EditText>(R.id.yemekİsmiText)
+      //  val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+       // progressBar.visibility = View.INVISIBLE
         val malzemeler = view.findViewById<EditText>(R.id.malzemelerText)
         selectedImage = view.findViewById(R.id.imageView2)
         button.setOnClickListener {
-            saveSQL(isim.text.toString(),malzemeler.text.toString())
+            saveSQL(isim.text.toString(),malzemeler.text.toString()){
+                if(it){
+               //     progressBar.visibility = View.INVISIBLE
+                    Toast.makeText( context,"Başarı ile kaydedildi.",Toast.LENGTH_LONG).show();
+                    val action = TarifFragmentDirections.actionTarifFragmentToListeFragment()
+                    Navigation.findNavController(requireActivity(), R.id.fragment).navigate(action)
+                }
+                else{
+                    Toast.makeText( context,"Lütfen Tekrar Deneyiniz",Toast.LENGTH_LONG).show();
+
+                }
+            }
+            //saveSQL(isim.text.toString(),malzemeler.text.toString())
         }
         selectedImage.setOnClickListener {
             val pickImg = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -64,7 +81,7 @@ class TarifFragment : Fragment() {
         return tabloVar
     }
 
-    fun saveSQL(baslik: String, metin: String) {
+    fun saveSQL(baslik: String, metin: String ,completion: (Boolean) -> Unit) {
         val dbHelper = DatabaseHelper(requireContext())
         if (this.test == null) {
             Log.e("Database", "Resim seçilmedi.")
@@ -75,6 +92,7 @@ class TarifFragment : Fragment() {
 
         try {
             dbHelper.insertTarif(baslik,metin,imageByteArray)
+            completion(true)
         } catch (e: Exception) {
             Log.e("Database", "Yemek kaydedilirken bir hata oluştu: ${e.message}")
         }
